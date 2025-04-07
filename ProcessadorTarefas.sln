@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProcessadorTarefas.Applicat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProcessadorTarefas.Infrastructure", "ProcessadorTarefas.Infrastructure\ProcessadorTarefas.Infrastructure.csproj", "{763BF9DF-DDAA-458A-AC09-E71D78E7C841}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProcessadorTarefas.Worker.EnviarEmail", "ProcessadorTarefas.Worker.EnviarEmail\ProcessadorTarefas.Worker.EnviarEmail.csproj", "{47D79DA7-83C1-4DF2-AC8A-88274AC1FCF6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProcessadorTarefas.Worker.GerarRelatorio", "ProcessadorTarefas.Worker.GerarRelatorio\ProcessadorTarefas.Worker.GerarRelatorio.csproj", "{0DA89364-0A6A-44C1-9850-C4C3BFA2992E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{763BF9DF-DDAA-458A-AC09-E71D78E7C841}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{763BF9DF-DDAA-458A-AC09-E71D78E7C841}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{763BF9DF-DDAA-458A-AC09-E71D78E7C841}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47D79DA7-83C1-4DF2-AC8A-88274AC1FCF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47D79DA7-83C1-4DF2-AC8A-88274AC1FCF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47D79DA7-83C1-4DF2-AC8A-88274AC1FCF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47D79DA7-83C1-4DF2-AC8A-88274AC1FCF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DA89364-0A6A-44C1-9850-C4C3BFA2992E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DA89364-0A6A-44C1-9850-C4C3BFA2992E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DA89364-0A6A-44C1-9850-C4C3BFA2992E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DA89364-0A6A-44C1-9850-C4C3BFA2992E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

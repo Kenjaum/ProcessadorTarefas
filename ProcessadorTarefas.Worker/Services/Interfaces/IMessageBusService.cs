@@ -1,4 +1,4 @@
-﻿using ProcessadorTarefas.Core.Entities;
+﻿using ProcessadorTarefas.Worker.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +9,7 @@ namespace ProcessadorTarefas.Core.Services
 {
     public interface IMessageBusService
     {
+        Task Consumir(Func<string, Task> processarMensagem);
         Task Publicar(Tarefa tarefa);
     }
 }

@@ -19,7 +19,7 @@ namespace ProcessadorTarefas.Infrastructure.Persistence.Repositories
         public async Task<Guid> CriarTarefaAsync(Tarefa entity)
         {
             await _tarefas.InsertOneAsync(entity);
-            await _rabbitMq.Publish(entity);
+            await _rabbitMq.Publicar(entity);
             return entity.Id;
         }
 
@@ -27,15 +27,5 @@ namespace ProcessadorTarefas.Infrastructure.Persistence.Repositories
         {
             return await _tarefas.Find(t => t.Id == id).FirstOrDefaultAsync();
         }
-
-        //public async Task AtualizarStatustarefaAsync(int id, TaskStatus status, int tentativas = 0)
-        //{
-        //    var update = Builders<Tarefa>.Update
-        //        .Set(t => t.Status, status)
-        //        .Set(t => t.Tentativas, tentativas)
-        //        .Set(t => t.LastUpdated, DateTime.UtcNow);
-
-        //    await _tarefas.UpdateOneAsync(t => t.Id == id, update);
-        //}
     }
 }

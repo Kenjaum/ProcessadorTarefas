@@ -8,6 +8,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using RabbitMQ.Client;
 using System.Threading.Channels;
+using RabbitMQ.Client.Events;
 
 namespace ProcessadorTarefas.Infrastructure.MessageBus
 {
@@ -19,7 +20,7 @@ namespace ProcessadorTarefas.Infrastructure.MessageBus
 
         }
 
-        public async Task Publish(Tarefa tarefa)
+        public async Task Publicar(Tarefa tarefa)
         {
             var factory = new ConnectionFactory { HostName = "localhost" };
             using var connection = await factory.CreateConnectionAsync();
