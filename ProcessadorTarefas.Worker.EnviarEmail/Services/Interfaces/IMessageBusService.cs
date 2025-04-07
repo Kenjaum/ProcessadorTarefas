@@ -9,7 +9,7 @@ namespace ProcessadorTarefas.Worker.EnviarEmail.Services.Interfaces
 {
     public interface IMessageBusService
     {
-        Task Consumir(Func<string, Task> processarMensagem);
-        Task Publicar(Tarefa tarefa);
+        void Consumir(Func<string, Task> processarMensagem);
+        void Publicar(Tarefa tarefa);
     }
 }

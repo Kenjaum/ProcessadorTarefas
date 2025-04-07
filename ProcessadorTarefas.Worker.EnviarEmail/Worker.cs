@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using ProcessadorTarefas.Worker.EnviarEmail.Models;
 using ProcessadorTarefas.Worker.EnviarEmail.Services.Interfaces;
+using RabbitMQ.Client;
 using System.Text.Json;
 using System.Threading.Channels;
 
@@ -49,7 +50,7 @@ namespace ProcessadorTarefas.Worker.EnviarEmail
                     else
                     {
                         await _repository.AtualizarStatusAsync(tarefa.Id, StatusTarefa.Pendente, tarefa.Tentativas);
-                        await _serviceBus.Publicar(tarefa);
+                        _serviceBus.Publicar(tarefa);
                     }
                 }
             });

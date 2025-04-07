@@ -1,6 +1,9 @@
+using FluentValidation.AspNetCore;
+using ProcessadorTarefas.API;
 using ProcessadorTarefas.API.Extensions;
 using ProcessadorTarefas.Application.Commands.CriarTarefa;
 using ProcessadorTarefas.Application.Queries.BuscarTarefa;
+using ProcessadorTarefas.Application.Validators;
 using ProcessadorTarefas.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +13,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddInfrastructure();
+
+builder.Services.AddControllers(options => options.Filters.Add(typeof(ValidationFilter)))
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CriarTarefaCommandValidator>());
 
 builder.Services.AddMediatR(x => x.RegisterServicesFromAssembly(typeof(CriarTarefaCommand).Assembly));
 

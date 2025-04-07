@@ -9,28 +9,35 @@ using System.Threading.Tasks;
 using RabbitMQ.Client;
 using System.Threading.Channels;
 using RabbitMQ.Client.Events;
+using Microsoft.Extensions.Configuration;
 
 namespace ProcessadorTarefas.Infrastructure.MessageBus
 {
     public class MessageBusService : IMessageBusService
     {
+        private readonly IConfiguration _config;
+        private readonly string? _nomeExchange;
+        private readonly string? _nomeFila;
 
-        public MessageBusService()
+        public MessageBusService(IConfiguration config)
         {
-
+            this._config = config;
+            _nomeExchange = _config["RabbitMq:NomeExchange"];
         }
 
         public async Task Publicar(Tarefa tarefa)
         {
-            var factory = new ConnectionFactory { HostName = "localhost" };
+            var factory = new ConnectionFactory { HostName = _config["RabbitMq:HostName"] };
             using var connection = await factory.CreateConnectionAsync();
             using var channel = await connection.CreateChannelAsync();
 
-            await channel.QueueDeclareAsync(queue: "fila-tarefa", durable: true, exclusive: false, autoDelete: false);
+            await channel.ExchangeDeclareAsync(_nomeExchange, ExchangeType.Direct, durable: true);
 
             var json = JsonSerializer.Serialize(tarefa);
             var body = Encoding.UTF8.GetBytes(json);
-            await channel.BasicPublishAsync("", "fila-tarefa", body);
+
+            var routingKey = tarefa.Tipo.ToString();
+            await channel.BasicPublishAsync(_nomeExchange, routingKey, body);
         }
     }
 }

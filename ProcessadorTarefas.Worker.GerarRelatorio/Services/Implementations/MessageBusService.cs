@@ -15,46 +15,50 @@ namespace ProcessadorTarefas.Worker.EnviarEmail.Services.Implementations
     public class MessageBusService : IMessageBusService
     {
         private readonly IConfiguration config;
-        private readonly string? hostName;
-        private readonly string? nomeFila;
+        private readonly string? _hostName;
+        private readonly string? _nomeExchange;
+        private readonly string _routingKey;
+        private readonly string _nomeFila;
+        private IConnection _connection;
+        private readonly IModel _channel;
 
         public MessageBusService(IConfiguration config)
         {
             this.config = config;
-            hostName = config["RabbitMq:HostName"];
-            nomeFila = config["RabbitMq:NomeFila"];
+            _hostName = config["RabbitMq:HostName"];
+            _nomeExchange = config["RabbitMq:NomeExchange"];
+            _routingKey = "GerarRelatorio";
+            _nomeFila = $"fila.{_routingKey}";
+
+            var factory = new ConnectionFactory { HostName = _hostName };
+            _connection = factory.CreateConnection();
+            _channel = _connection.CreateModel();
+
+            _channel.ExchangeDeclare(_nomeExchange, ExchangeType.Direct, durable: true);
+
+            _channel.QueueDeclare(queue: _nomeFila, durable: true, exclusive: false, autoDelete: false);
+            _channel.QueueBind(queue: _nomeFila, exchange: _nomeExchange, routingKey: _routingKey);
         }
 
-        public async Task Publicar(Tarefa tarefa)
+        public void Publicar(Tarefa tarefa)
         {
-            var factory = new ConnectionFactory { HostName = hostName };
-            using var connection = await factory.CreateConnectionAsync();
-            using var channel = await connection.CreateChannelAsync();
-
-            await channel.QueueDeclareAsync(queue: nomeFila, durable: true, exclusive: false, autoDelete: false);
-
             var json = JsonSerializer.Serialize(tarefa);
             var body = Encoding.UTF8.GetBytes(json);
-            await channel.BasicPublishAsync("", nomeFila, body);
+
+            _channel.BasicPublish(_nomeExchange, _routingKey, basicProperties: null, body);
         }
 
-        public async Task Consumir(Func<string, Task> processarMensagem)
+        public void Consumir(Func<string, Task> processarMensagem)
         {
-            var factory = new ConnectionFactory { HostName = "localhost" };
-            using var connection = await factory.CreateConnectionAsync();
-            using var channel = await connection.CreateChannelAsync();
-
-            var consumidor = new AsyncEventingBasicConsumer(channel);
-            consumidor.ReceivedAsync += async (model, ea) =>
+            var consumidor = new EventingBasicConsumer(_channel);
+            consumidor.Received += async (modelo, ea) =>
             {
                 var corpo = ea.Body.ToArray();
                 var mensagem = Encoding.UTF8.GetString(corpo);
-
                 await processarMensagem(mensagem);
-                await channel.BasicAckAsync(ea.DeliveryTag, false);
             };
 
-            await channel.BasicConsumeAsync(queue: "fila-tarefa", autoAck: false, consumer: consumidor);
+            _channel.BasicConsume(queue: _nomeFila, autoAck: true, consumer: consumidor);
         }
     }
 }

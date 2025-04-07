@@ -49,7 +49,7 @@ namespace ProcessadorTarefas.Worker.EnviarEmail
                     else
                     {
                         await _repository.AtualizarStatusAsync(tarefa.Id, StatusTarefa.Pendente, tarefa.Tentativas);
-                        await _serviceBus.Publicar(tarefa);
+                        _serviceBus.Publicar(tarefa);
                     }
                 }
             });

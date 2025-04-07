@@ -11,7 +11,7 @@ namespace ProcessadorTarefas.Core.Entities
 {
     public class Tarefa
     {
-        public Tarefa(string tipo, string dados)
+        public Tarefa(TipoTarefa tipo, string dados)
         {
             Id = Guid.NewGuid();
             Tipo = tipo;
@@ -23,7 +23,7 @@ namespace ProcessadorTarefas.Core.Entities
 
         [BsonId, BsonRepresentation(BsonType.String)]
         public Guid Id { get; set; }
-        public string Tipo { get; set; }
+        public TipoTarefa Tipo { get; set; }
         public string Dados { get; set; }
         public StatusTarefa Status { get; set; }
         public int Tentativas { get; set; }
