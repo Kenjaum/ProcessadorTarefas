@@ -1,10 +1,10 @@
 using Microsoft.Extensions.DependencyInjection;
-using ProcessadorTarefas.Worker.EnviarEmail.Models;
-using ProcessadorTarefas.Worker.EnviarEmail.Services.Interfaces;
+using ProcessadorTarefas.Worker.GerarRelatorio.Models;
+using ProcessadorTarefas.Worker.GerarRelatorio.Services.Interfaces;
 using System.Text.Json;
 using System.Threading.Channels;
 
-namespace ProcessadorTarefas.Worker.EnviarEmail
+namespace ProcessadorTarefas.Worker.GerarRelatorio
 {
     public class Worker : BackgroundService
     {

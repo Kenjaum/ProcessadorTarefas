@@ -5,12 +5,12 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Threading.Channels;
-using ProcessadorTarefas.Worker.EnviarEmail.Services.Interfaces;
-using ProcessadorTarefas.Worker.EnviarEmail.Models;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using ProcessadorTarefas.Worker.GerarRelatorio.Models;
+using ProcessadorTarefas.Worker.GerarRelatorio.Services.Interfaces;
 
-namespace ProcessadorTarefas.Worker.EnviarEmail.Services.Implementations
+namespace ProcessadorTarefas.Worker.GerarRelatorio.Services.Implementations
 {
     public class MessageBusService : IMessageBusService
     {
@@ -30,7 +30,13 @@ namespace ProcessadorTarefas.Worker.EnviarEmail.Services.Implementations
             _routingKey = "GerarRelatorio";
             _nomeFila = $"fila.{_routingKey}";
 
-            var factory = new ConnectionFactory { HostName = _hostName };
+            var factory = new ConnectionFactory
+            {
+                HostName = config["RabbitMq:HostName"],
+                Port = int.Parse(config["RabbitMq:Port"]),
+                UserName = config["RabbitMq:UserName"],
+                Password = config["RabbitMq:Password"]
+            };
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
 

@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
-using ProcessadorTarefas.Worker.EnviarEmail.Services.Interfaces;
+using ProcessadorTarefas.Worker.GerarRelatorio.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProcessadorTarefas.Worker.EnviarEmail.Services.Implementations
+namespace ProcessadorTarefas.Worker.GerarRelatorio.Services.Implementations
 {
     public class MongoDbContext : IMongoDbContext
     {

@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ProcessadorTarefas.API/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - MONGO_CONNECTION=mongodb://mongodb:27017
+    depends_on:
+      - mongodb
+      - rabbitmq
+
+  worker_enviar_email:
+    build:
+      context: ./ProcessadorTarefas.Worker.EnviarEmail
+      dockerfile: Dockerfile
+    depends_on:
+      mongodb:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
+
+  worker_gerar_relatorio:
+    build:
+      context: ./ProcessadorTarefas.Worker.GerarRelatorio
+      dockerfile: Dockerfile
+    depends_on:
+      mongodb:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
+
+  mongodb:
+    image: mongo:7.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"     # porta de comunicacao
+      - "15672:15672"   # dashboard web
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mongo_data:

@@ -30,7 +30,12 @@ namespace ProcessadorTarefas.Worker.EnviarEmail.Services.Implementations
             _routingKey = "EnviarEmail";
             _nomeFila = $"fila.{_routingKey}";
 
-            var factory = new ConnectionFactory { HostName = _hostName };
+            var factory = new ConnectionFactory {
+                HostName = config["RabbitMq:HostName"],
+                Port = int.Parse(config["RabbitMq:Port"]),
+                UserName = config["RabbitMq:UserName"],
+                Password = config["RabbitMq:Password"]
+            };
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
 

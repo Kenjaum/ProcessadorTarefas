@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver;
 
-namespace ProcessadorTarefas.Worker.EnviarEmail.Services.Interfaces
+namespace ProcessadorTarefas.Worker.GerarRelatorio.Services.Interfaces
 {
     public interface IMongoDbContext
     {

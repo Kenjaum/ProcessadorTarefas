@@ -1,6 +1,6 @@
-using ProcessadorTarefas.Worker.EnviarEmail;
-using ProcessadorTarefas.Worker.EnviarEmail.Services.Implementations;
-using ProcessadorTarefas.Worker.EnviarEmail.Services.Interfaces;
+using ProcessadorTarefas.Worker.GerarRelatorio;
+using ProcessadorTarefas.Worker.GerarRelatorio.Services.Implementations;
+using ProcessadorTarefas.Worker.GerarRelatorio.Services.Interfaces;
 
 var builder = Host.CreateApplicationBuilder(args);
 

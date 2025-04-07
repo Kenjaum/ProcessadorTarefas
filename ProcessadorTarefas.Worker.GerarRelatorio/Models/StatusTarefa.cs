@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProcessadorTarefas.Worker.EnviarEmail.Models
+namespace ProcessadorTarefas.Worker.GerarRelatorio.Models
 {
     public enum StatusTarefa
     {
