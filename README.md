@@ -46,7 +46,7 @@ Este projeto é composto por serviços que processam tarefas, utilizando **.NET*
 
 ### 🌐 Acesse os serviços
 
-  - **API**: [http://localhost:5000](http://localhost:8080/swagger/index.html) *(ajuste a porta conforme o `docker-compose.yml`)*
+  - **API**: [http://localhost:8080/swagger/index.html](http://localhost:8080/swagger/index.html) *(ajuste a porta conforme o `docker-compose.yml`)*
   - **RabbitMQ Dashboard**: [http://localhost:15672](http://localhost:15672)  
      **Usuário**: `guest`  
      **Senha**: `guest`
